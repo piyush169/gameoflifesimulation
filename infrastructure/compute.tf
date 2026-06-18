@@ -67,7 +67,7 @@ resource "aws_ecs_task_definition" "app" {
   container_definitions = jsonencode([
     {
       name      = "gol-backend"
-      image     = "${aws_ecr_repository.backend.repository_url}:latest" # Assumes an ECR resource is declared or built
+      image = "${data.aws_ecr_repository.backend.repository_url}:latest" # Assumes an ECR resource is declared or built
       essential = true
       portMappings = [
         {
