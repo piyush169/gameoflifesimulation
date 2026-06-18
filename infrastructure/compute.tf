@@ -92,13 +92,9 @@ resource "aws_ecs_task_definition" "app" {
   ])
 }
 
-# 6. ECR Repository to host your Docker images
-resource "aws_ecr_repository" "backend" {
-  name                 = "gol-chaos-backend"
-  image_tag_mutability = "MUTABLE"
-  image_scanning_configuration {
-    scan_on_push = false
-  }
+# 6. Fetch the existing ECR Repository created by the CI/CD pipeline
+data "aws_ecr_repository" "backend" {
+  name = "gol-chaos-backend"
 }
 
 # 7. ECS Fargate Service
