@@ -51,9 +51,11 @@ deploy-infrastructure:
     name: hashicorp/terraform:light
     entrypoint: [""]
   before_script:
-    - apk add --no-cache zip aws-cli
-    - cd load_injector && npm install --only=production && cd ..
-    - zip -j infrastructure/dummy_lambda.zip load_injector/*
+    # Added nodejs and npm to the alpine package installation
+    - apk add --no-cache zip aws-cli nodejs npm
+    # Updated to match the dashed folder name and modern npm flag
+    - cd load-injector && npm install --omit=dev && cd ..
+    - zip -j infrastructure/dummy_lambda.zip load-injector/*
   script:
     - cd infrastructure
     - terraform init
