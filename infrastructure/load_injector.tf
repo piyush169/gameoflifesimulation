@@ -1,7 +1,7 @@
 # Paste your manually created Lambda execution role and EventBridge role here
 locals {
-  lambda_role_arn      = "arn:aws:iam::710590321638:role/gol-lambda-execution-role"
-  scheduler_role_arn   = "arn:aws:iam::710590321638:role/gol-eventbridge-scheduler-role"
+  lambda_role_arn    = "arn:aws:iam::710590321638:role/gol-lambda-execution-role"
+  scheduler_role_arn = "arn:aws:iam::710590321638:role/gol-eventbridge-scheduler-role"
 }
 
 # Dummy archive to allow initial Terraform apply without breaking
@@ -16,12 +16,12 @@ data "archive_file" "dummy_lambda" {
 
 # The Load Injector Lambda Function
 resource "aws_lambda_function" "load_injector" {
-  filename         = data.archive_file.dummy_lambda.output_path
-  function_name    = "gol-chaos-load-injector"
-  role             = local.lambda_role_arn
-  handler          = "index.js"
-  runtime          = "nodejs18.x"
-  timeout          = 300 # 5-minute limit for heavy batch execution
+  filename      = data.archive_file.dummy_lambda.output_path
+  function_name = "gol-chaos-load-injector"
+  role          = local.lambda_role_arn
+  handler       = "index.js"
+  runtime       = "nodejs18.x"
+  timeout       = 300 # 5-minute limit for heavy batch execution
 
   environment {
     variables = {

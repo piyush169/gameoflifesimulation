@@ -142,7 +142,7 @@ resource "aws_appautoscaling_policy" "ecs_policy_cpu" {
   service_namespace  = aws_appautoscaling_target.ecs_target.service_namespace
 
   target_tracking_scaling_policy_configuration {
-    target_value       = 70.0 # Scales up when average cluster CPU passes 70%
+    target_value = 70.0 # Scales up when average cluster CPU passes 70%
     predefined_metric_specification {
       predefined_metric_type = "ECSServiceAverageCPUUtilization"
     }

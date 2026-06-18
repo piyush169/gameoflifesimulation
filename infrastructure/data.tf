@@ -1,7 +1,7 @@
 # --- SQS Chaos Queue ---
 resource "aws_sqs_queue" "chaos_queue" {
-  name                      = "gol-chaos-work-queue"
-  message_retention_seconds = 86400 # 1 day retention is plenty for testing
+  name                       = "gol-chaos-work-queue"
+  message_retention_seconds  = 86400 # 1 day retention is plenty for testing
   visibility_timeout_seconds = 30
 }
 
