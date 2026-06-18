@@ -16,12 +16,12 @@ cache:
     - load_injector/node_modules/
     - infrastructure/.terraform/
 
-# ==========================================
-# VALIDATE STAGE
-# ==========================================
+
 tf-validate:
   stage: validate
-  image: hashicorp/terraform:light
+  image: 
+    name: hashicorp/terraform:light
+    entrypoint: [""]
   script:
     - cd infrastructure
     - terraform init -backend=false
