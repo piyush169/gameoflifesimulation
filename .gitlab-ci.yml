@@ -1,0 +1,70 @@
+stages:
+  - validate
+  - build
+  - deploy
+
+variables:
+  AWS_DEFAULT_REGION: "us-east-1"
+  ECR_REGISTRY: "$AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com"
+  ECR_REPOSITORY: "gol-chaos-backend"
+  IMAGE_TAG: "latest"
+
+# Cache node_modules and terraform plugins globally to speed up pipeline execution
+cache:
+  paths:
+    - backend/node_modules/
+    - load_injector/node_modules/
+    - infrastructure/.terraform/
+
+# ==========================================
+# VALIDATE STAGE
+# ==========================================
+tf-validate:
+  stage: validate
+  image: hashicorp/terraform:light
+  script:
+    - cd infrastructure
+    - terraform init -backend=false
+    - terraform validate
+    - terraform fmt -check
+
+# ==========================================
+# BUILD STAGE
+# ==========================================
+build-backend-image:
+  stage: build
+  image: docker:24.0.5
+  services:
+    - docker:24.0.5-dind
+  before_script:
+    - apk add --no-cache aws-cli
+    - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $ECR_REGISTRY
+  script:
+    - cd backend
+    - docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+    - docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+  only:
+    - main
+
+# ==========================================
+# DEPLOY STAGE
+# ==========================================
+deploy-infrastructure:
+  stage: deploy
+  image: 
+    name: hashicorp/terraform:light
+    entrypoint: [""]
+  before_script:
+    - apk add --no-cache zip aws-cli
+    # Package the load injector Lambda function code dynamically for Terraform execution
+    - cd load_injector && npm install --only=production && cd ..
+    - zip -j infrastructure/dummy_lambda.zip load_injector/*
+  script:
+    - cd infrastructure
+    - terraform init
+    - terraform plan -out=tfplan
+    - terraform apply -auto-approve tfplan
+    # Force an ECS deployment cycle to ensure Fargate pulls the fresh image from ECR
+    - aws ecs update-service --cluster gol-chaos-cluster --service gol-backend-service --force-new-deployment --region $AWS_DEFAULT_REGION
+  only:
+    - main

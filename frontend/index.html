@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoL Chaos Engine Telemetry</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="dashboard">
+        <header>
+            <h1>CLUSTER STATE: <span id="status" class="status-connecting">CONNECTING...</span></h1>
+            <div class="metrics">
+                <div class="metric-box">
+                    <span class="label">ENGINE TICK RATE</span>
+                    <span class="value"><span id="fps">0.0</span> /s</span>
+                </div>
+                <div class="metric-box">
+                    <span class="label">GRID POPULATION</span>
+                    <span class="value" id="population">0</span>
+                </div>
+            </div>
+        </header>
+        
+        <main>
+            <canvas id="golCanvas" width="500" height="500"></canvas>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

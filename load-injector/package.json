@@ -1,0 +1,9 @@
+{
+  "name": "gol-chaos-load-injector",
+  "version": "1.0.0",
+  "description": "Surge load injector for Game of Life chaos testing",
+  "main": "index.js",
+  "dependencies": {
+    "@aws-sdk/client-sqs": "^3.0.0"
+  }
+}
