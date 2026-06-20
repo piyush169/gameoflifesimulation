@@ -60,8 +60,10 @@ function updateTickRate() {
     }
 }
 
+let ws;
 function connect() {
-    const ws = new WebSocket(ALB_WEBSOCKET_URL);
+
+    ws = new WebSocket(ALB_WEBSOCKET_URL);
 
     ws.onopen = () => {
         statusText.innerText = 'CONNECTED & STREAMING';
