@@ -9,7 +9,7 @@ function startServer() {
     // Health check endpoint for ALB
     app.get('/health', (req, res) => res.status(200).send('OK'));
 
-    const server = app.listen(port, () => {
+    const server = app.listen(port, `0.0.0.0`, () => {
         console.log(`HTTP/WS Server listening on port ${port}`);
     });
 

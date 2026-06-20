@@ -1,6 +1,6 @@
 // --- CONFIGURATION ---
 // REPLACE THIS with the DNS name of your AWS Application Load Balancer
-const ALB_WEBSOCKET_URL = 'ws://YOUR-ALB-DNS-NAME.us-east-1.elb.amazonaws.com';
+const ALB_WEBSOCKET_URL = 'ws://gol-backend-alb-626509893.us-east-1.elb.amazonaws.com';
 
 // --- DOM ELEMENTS ---
 const canvas = document.getElementById('golCanvas');
