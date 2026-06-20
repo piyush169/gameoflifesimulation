@@ -1,0 +1,47 @@
+import { Command as $Command } from "@smithy/core/client";
+import { MetadataBearer as __MetadataBearer } from "@smithy/types";
+import {
+  LambdaClientResolvedConfig,
+  ServiceInputTypes,
+  ServiceOutputTypes,
+} from "../LambdaClient";
+import { RemovePermissionRequest } from "../models/models_0";
+export { __MetadataBearer };
+export { $Command };
+export interface RemovePermissionCommandInput extends RemovePermissionRequest {}
+export interface RemovePermissionCommandOutput extends __MetadataBearer {}
+declare const RemovePermissionCommand_base: {
+  new (
+    input: RemovePermissionCommandInput
+  ): import("@smithy/core/client").CommandImpl<
+    RemovePermissionCommandInput,
+    RemovePermissionCommandOutput,
+    LambdaClientResolvedConfig,
+    ServiceInputTypes,
+    ServiceOutputTypes
+  >;
+  new (
+    input: RemovePermissionCommandInput
+  ): import("@smithy/core/client").CommandImpl<
+    RemovePermissionCommandInput,
+    RemovePermissionCommandOutput,
+    LambdaClientResolvedConfig,
+    ServiceInputTypes,
+    ServiceOutputTypes
+  >;
+  getEndpointParameterInstructions(): {
+    [x: string]: unknown;
+  };
+};
+export declare class RemovePermissionCommand extends RemovePermissionCommand_base {
+  protected static __types: {
+    api: {
+      input: RemovePermissionRequest;
+      output: {};
+    };
+    sdk: {
+      input: RemovePermissionCommandInput;
+      output: RemovePermissionCommandOutput;
+    };
+  };
+}

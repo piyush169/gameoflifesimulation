@@ -1,0 +1,53 @@
+import { Command as $Command } from "@smithy/core/client";
+import { MetadataBearer as __MetadataBearer } from "@smithy/types";
+import {
+  LambdaClientResolvedConfig,
+  ServiceInputTypes,
+  ServiceOutputTypes,
+} from "../LambdaClient";
+import {
+  GetFunctionUrlConfigRequest,
+  GetFunctionUrlConfigResponse,
+} from "../models/models_0";
+export { __MetadataBearer };
+export { $Command };
+export interface GetFunctionUrlConfigCommandInput
+  extends GetFunctionUrlConfigRequest {}
+export interface GetFunctionUrlConfigCommandOutput
+  extends GetFunctionUrlConfigResponse,
+    __MetadataBearer {}
+declare const GetFunctionUrlConfigCommand_base: {
+  new (
+    input: GetFunctionUrlConfigCommandInput
+  ): import("@smithy/core/client").CommandImpl<
+    GetFunctionUrlConfigCommandInput,
+    GetFunctionUrlConfigCommandOutput,
+    LambdaClientResolvedConfig,
+    ServiceInputTypes,
+    ServiceOutputTypes
+  >;
+  new (
+    input: GetFunctionUrlConfigCommandInput
+  ): import("@smithy/core/client").CommandImpl<
+    GetFunctionUrlConfigCommandInput,
+    GetFunctionUrlConfigCommandOutput,
+    LambdaClientResolvedConfig,
+    ServiceInputTypes,
+    ServiceOutputTypes
+  >;
+  getEndpointParameterInstructions(): {
+    [x: string]: unknown;
+  };
+};
+export declare class GetFunctionUrlConfigCommand extends GetFunctionUrlConfigCommand_base {
+  protected static __types: {
+    api: {
+      input: GetFunctionUrlConfigRequest;
+      output: GetFunctionUrlConfigResponse;
+    };
+    sdk: {
+      input: GetFunctionUrlConfigCommandInput;
+      output: GetFunctionUrlConfigCommandOutput;
+    };
+  };
+}

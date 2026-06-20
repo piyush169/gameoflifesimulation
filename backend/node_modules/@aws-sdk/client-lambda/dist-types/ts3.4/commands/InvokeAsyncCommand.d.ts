@@ -1,0 +1,58 @@
+import { Command as $Command } from "@smithy/core/client";
+import {
+  MetadataBearer as __MetadataBearer,
+  StreamingBlobPayloadInputTypes,
+} from "@smithy/types";
+import {
+  LambdaClientResolvedConfig,
+  ServiceInputTypes,
+  ServiceOutputTypes,
+} from "../LambdaClient";
+import { InvokeAsyncRequest, InvokeAsyncResponse } from "../models/models_0";
+export { __MetadataBearer };
+export { $Command };
+export interface InvokeAsyncCommandInput
+  extends Pick<
+    InvokeAsyncRequest,
+    Exclude<keyof InvokeAsyncRequest, "InvokeArgs">
+  > {
+  InvokeArgs: StreamingBlobPayloadInputTypes;
+}
+export interface InvokeAsyncCommandOutput
+  extends InvokeAsyncResponse,
+    __MetadataBearer {}
+declare const InvokeAsyncCommand_base: {
+  new (
+    input: InvokeAsyncCommandInput
+  ): import("@smithy/core/client").CommandImpl<
+    InvokeAsyncCommandInput,
+    InvokeAsyncCommandOutput,
+    LambdaClientResolvedConfig,
+    ServiceInputTypes,
+    ServiceOutputTypes
+  >;
+  new (
+    input: InvokeAsyncCommandInput
+  ): import("@smithy/core/client").CommandImpl<
+    InvokeAsyncCommandInput,
+    InvokeAsyncCommandOutput,
+    LambdaClientResolvedConfig,
+    ServiceInputTypes,
+    ServiceOutputTypes
+  >;
+  getEndpointParameterInstructions(): {
+    [x: string]: unknown;
+  };
+};
+export declare class InvokeAsyncCommand extends InvokeAsyncCommand_base {
+  protected static __types: {
+    api: {
+      input: InvokeAsyncRequest;
+      output: InvokeAsyncResponse;
+    };
+    sdk: {
+      input: InvokeAsyncCommandInput;
+      output: InvokeAsyncCommandOutput;
+    };
+  };
+}

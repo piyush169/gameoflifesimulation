@@ -1,0 +1,53 @@
+import { Command as $Command } from "@smithy/core/client";
+import { MetadataBearer as __MetadataBearer } from "@smithy/types";
+import {
+  LambdaClientResolvedConfig,
+  ServiceInputTypes,
+  ServiceOutputTypes,
+} from "../LambdaClient";
+import {
+  ListEventSourceMappingsRequest,
+  ListEventSourceMappingsResponse,
+} from "../models/models_0";
+export { __MetadataBearer };
+export { $Command };
+export interface ListEventSourceMappingsCommandInput
+  extends ListEventSourceMappingsRequest {}
+export interface ListEventSourceMappingsCommandOutput
+  extends ListEventSourceMappingsResponse,
+    __MetadataBearer {}
+declare const ListEventSourceMappingsCommand_base: {
+  new (
+    input: ListEventSourceMappingsCommandInput
+  ): import("@smithy/core/client").CommandImpl<
+    ListEventSourceMappingsCommandInput,
+    ListEventSourceMappingsCommandOutput,
+    LambdaClientResolvedConfig,
+    ServiceInputTypes,
+    ServiceOutputTypes
+  >;
+  new (
+    ...[input]: [] | [ListEventSourceMappingsCommandInput]
+  ): import("@smithy/core/client").CommandImpl<
+    ListEventSourceMappingsCommandInput,
+    ListEventSourceMappingsCommandOutput,
+    LambdaClientResolvedConfig,
+    ServiceInputTypes,
+    ServiceOutputTypes
+  >;
+  getEndpointParameterInstructions(): {
+    [x: string]: unknown;
+  };
+};
+export declare class ListEventSourceMappingsCommand extends ListEventSourceMappingsCommand_base {
+  protected static __types: {
+    api: {
+      input: ListEventSourceMappingsRequest;
+      output: ListEventSourceMappingsResponse;
+    };
+    sdk: {
+      input: ListEventSourceMappingsCommandInput;
+      output: ListEventSourceMappingsCommandOutput;
+    };
+  };
+}

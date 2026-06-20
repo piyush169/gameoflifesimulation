@@ -1,0 +1,53 @@
+import { Command as $Command } from "@smithy/core/client";
+import { MetadataBearer as __MetadataBearer } from "@smithy/types";
+import {
+  LambdaClientResolvedConfig,
+  ServiceInputTypes,
+  ServiceOutputTypes,
+} from "../LambdaClient";
+import {
+  PutRuntimeManagementConfigRequest,
+  PutRuntimeManagementConfigResponse,
+} from "../models/models_0";
+export { __MetadataBearer };
+export { $Command };
+export interface PutRuntimeManagementConfigCommandInput
+  extends PutRuntimeManagementConfigRequest {}
+export interface PutRuntimeManagementConfigCommandOutput
+  extends PutRuntimeManagementConfigResponse,
+    __MetadataBearer {}
+declare const PutRuntimeManagementConfigCommand_base: {
+  new (
+    input: PutRuntimeManagementConfigCommandInput
+  ): import("@smithy/core/client").CommandImpl<
+    PutRuntimeManagementConfigCommandInput,
+    PutRuntimeManagementConfigCommandOutput,
+    LambdaClientResolvedConfig,
+    ServiceInputTypes,
+    ServiceOutputTypes
+  >;
+  new (
+    input: PutRuntimeManagementConfigCommandInput
+  ): import("@smithy/core/client").CommandImpl<
+    PutRuntimeManagementConfigCommandInput,
+    PutRuntimeManagementConfigCommandOutput,
+    LambdaClientResolvedConfig,
+    ServiceInputTypes,
+    ServiceOutputTypes
+  >;
+  getEndpointParameterInstructions(): {
+    [x: string]: unknown;
+  };
+};
+export declare class PutRuntimeManagementConfigCommand extends PutRuntimeManagementConfigCommand_base {
+  protected static __types: {
+    api: {
+      input: PutRuntimeManagementConfigRequest;
+      output: PutRuntimeManagementConfigResponse;
+    };
+    sdk: {
+      input: PutRuntimeManagementConfigCommandInput;
+      output: PutRuntimeManagementConfigCommandOutput;
+    };
+  };
+}

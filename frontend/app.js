@@ -70,12 +70,20 @@ function connect() {
 
     ws.onmessage = (event) => {
         try {
-            const grid = JSON.parse(event.data);
-            drawGrid(grid);
-            updateTickRate();
+            const payload = JSON.parse(event.data);
+        
+             // Handle Telemetry Metrics (CPU & SQS)
+            if (payload.type === 'TELEMETRY') {
+                updateCharts(payload.cpu, payload.queueDepth);
+            } 
+            // Handle Game Grid Data
+            else if (Array.isArray(payload)) {
+                drawGrid(payload);
+                updateTickRate();
+            }
         } catch (err) {
-            console.error("Failed to parse grid data", err);
-        }
+          console.error("Failed to parse incoming stream", err);
+       }
     };
 
     ws.onclose = () => {
@@ -88,6 +96,76 @@ function connect() {
     ws.onerror = (err) => {
         console.error("WebSocket Error: ", err);
     };
+}
+
+document.getElementById('resetBtn').addEventListener('click', () => {
+    if (ws && ws.readyState === WebSocket.OPEN) {
+        // Send a command to the backend to re-seed the grid
+        ws.send(JSON.stringify({ type: 'COMMAND', action: 'RESET_GRID' }));
+    }
+});
+
+document.getElementById('chaosBtn').addEventListener('click', () => {
+    if (ws && ws.readyState === WebSocket.OPEN) {
+        // Send a command to the backend to trigger the Lambda
+        ws.send(JSON.stringify({ type: 'COMMAND', action: 'TRIGGER_CHAOS' }));
+    }
+});
+
+// --- TELEMETRY GRAPHS (Chart.js) ---
+const commonChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    animation: { duration: 0 }, // Turn off animation for real-time snappy updates
+    scales: {
+        x: { display: false }, // Hide X axis labels for a cleaner look
+        y: { beginAtZero: true, grid: { color: '#30363d' } }
+    },
+    plugins: { legend: { labels: { color: '#8b949e' } } }
+};
+
+// 1. CPU Pressure Chart
+const cpuCtx = document.getElementById('cpuChart').getContext('2d');
+const cpuChart = new Chart(cpuCtx, {
+    type: 'line',
+    data: {
+        labels: Array(20).fill(''), // Hold last 20 data points
+        datasets: [{
+            label: 'Cluster CPU %',
+            data: Array(20).fill(0),
+            borderColor: '#f2cc60',
+            tension: 0.3
+        }]
+    },
+    options: { ...commonChartOptions, scales: { y: { max: 100 } } }
+});
+
+// 2. SQS Queue Depth Chart
+const queueCtx = document.getElementById('queueChart').getContext('2d');
+const queueChart = new Chart(queueCtx, {
+    type: 'line',
+    data: {
+        labels: Array(20).fill(''),
+        datasets: [{
+            label: 'SQS Backlog',
+            data: Array(20).fill(0),
+            borderColor: '#f85149',
+            tension: 0.3
+        }]
+    },
+    options: commonChartOptions
+});
+
+// Function to update charts when telemetry arrives
+function updateCharts(cpuVal, queueVal) {
+    // Push new data and remove oldest
+    cpuChart.data.datasets[0].data.push(cpuVal);
+    cpuChart.data.datasets[0].data.shift();
+    cpuChart.update();
+
+    queueChart.data.datasets[0].data.push(queueVal);
+    queueChart.data.datasets[0].data.shift();
+    queueChart.update();
 }
 
 // Start connection

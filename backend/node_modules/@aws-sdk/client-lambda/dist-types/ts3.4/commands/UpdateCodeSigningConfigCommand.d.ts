@@ -1,0 +1,53 @@
+import { Command as $Command } from "@smithy/core/client";
+import { MetadataBearer as __MetadataBearer } from "@smithy/types";
+import {
+  LambdaClientResolvedConfig,
+  ServiceInputTypes,
+  ServiceOutputTypes,
+} from "../LambdaClient";
+import {
+  UpdateCodeSigningConfigRequest,
+  UpdateCodeSigningConfigResponse,
+} from "../models/models_0";
+export { __MetadataBearer };
+export { $Command };
+export interface UpdateCodeSigningConfigCommandInput
+  extends UpdateCodeSigningConfigRequest {}
+export interface UpdateCodeSigningConfigCommandOutput
+  extends UpdateCodeSigningConfigResponse,
+    __MetadataBearer {}
+declare const UpdateCodeSigningConfigCommand_base: {
+  new (
+    input: UpdateCodeSigningConfigCommandInput
+  ): import("@smithy/core/client").CommandImpl<
+    UpdateCodeSigningConfigCommandInput,
+    UpdateCodeSigningConfigCommandOutput,
+    LambdaClientResolvedConfig,
+    ServiceInputTypes,
+    ServiceOutputTypes
+  >;
+  new (
+    input: UpdateCodeSigningConfigCommandInput
+  ): import("@smithy/core/client").CommandImpl<
+    UpdateCodeSigningConfigCommandInput,
+    UpdateCodeSigningConfigCommandOutput,
+    LambdaClientResolvedConfig,
+    ServiceInputTypes,
+    ServiceOutputTypes
+  >;
+  getEndpointParameterInstructions(): {
+    [x: string]: unknown;
+  };
+};
+export declare class UpdateCodeSigningConfigCommand extends UpdateCodeSigningConfigCommand_base {
+  protected static __types: {
+    api: {
+      input: UpdateCodeSigningConfigRequest;
+      output: UpdateCodeSigningConfigResponse;
+    };
+    sdk: {
+      input: UpdateCodeSigningConfigCommandInput;
+      output: UpdateCodeSigningConfigCommandOutput;
+    };
+  };
+}

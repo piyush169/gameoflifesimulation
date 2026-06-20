@@ -1,0 +1,53 @@
+import { Command as $Command } from "@smithy/core/client";
+import { MetadataBearer as __MetadataBearer } from "@smithy/types";
+import {
+  LambdaClientResolvedConfig,
+  ServiceInputTypes,
+  ServiceOutputTypes,
+} from "../LambdaClient";
+import {
+  EventSourceMappingConfiguration,
+  UpdateEventSourceMappingRequest,
+} from "../models/models_0";
+export { __MetadataBearer };
+export { $Command };
+export interface UpdateEventSourceMappingCommandInput
+  extends UpdateEventSourceMappingRequest {}
+export interface UpdateEventSourceMappingCommandOutput
+  extends EventSourceMappingConfiguration,
+    __MetadataBearer {}
+declare const UpdateEventSourceMappingCommand_base: {
+  new (
+    input: UpdateEventSourceMappingCommandInput
+  ): import("@smithy/core/client").CommandImpl<
+    UpdateEventSourceMappingCommandInput,
+    UpdateEventSourceMappingCommandOutput,
+    LambdaClientResolvedConfig,
+    ServiceInputTypes,
+    ServiceOutputTypes
+  >;
+  new (
+    input: UpdateEventSourceMappingCommandInput
+  ): import("@smithy/core/client").CommandImpl<
+    UpdateEventSourceMappingCommandInput,
+    UpdateEventSourceMappingCommandOutput,
+    LambdaClientResolvedConfig,
+    ServiceInputTypes,
+    ServiceOutputTypes
+  >;
+  getEndpointParameterInstructions(): {
+    [x: string]: unknown;
+  };
+};
+export declare class UpdateEventSourceMappingCommand extends UpdateEventSourceMappingCommand_base {
+  protected static __types: {
+    api: {
+      input: UpdateEventSourceMappingRequest;
+      output: EventSourceMappingConfiguration;
+    };
+    sdk: {
+      input: UpdateEventSourceMappingCommandInput;
+      output: UpdateEventSourceMappingCommandOutput;
+    };
+  };
+}

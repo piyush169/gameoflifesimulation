@@ -1,0 +1,62 @@
+import { Command as $Command } from "@smithy/core/client";
+import {
+  BlobPayloadInputTypes,
+  MetadataBearer as __MetadataBearer,
+} from "@smithy/types";
+import {
+  LambdaClientResolvedConfig,
+  ServiceInputTypes,
+  ServiceOutputTypes,
+} from "../LambdaClient";
+import {
+  SendDurableExecutionCallbackSuccessRequest,
+  SendDurableExecutionCallbackSuccessResponse,
+} from "../models/models_0";
+export { __MetadataBearer };
+export { $Command };
+export type SendDurableExecutionCallbackSuccessCommandInputType = Pick<
+  SendDurableExecutionCallbackSuccessRequest,
+  Exclude<keyof SendDurableExecutionCallbackSuccessRequest, "Result">
+> & {
+  Result?: BlobPayloadInputTypes;
+};
+export interface SendDurableExecutionCallbackSuccessCommandInput
+  extends SendDurableExecutionCallbackSuccessCommandInputType {}
+export interface SendDurableExecutionCallbackSuccessCommandOutput
+  extends SendDurableExecutionCallbackSuccessResponse,
+    __MetadataBearer {}
+declare const SendDurableExecutionCallbackSuccessCommand_base: {
+  new (
+    input: SendDurableExecutionCallbackSuccessCommandInput
+  ): import("@smithy/core/client").CommandImpl<
+    SendDurableExecutionCallbackSuccessCommandInput,
+    SendDurableExecutionCallbackSuccessCommandOutput,
+    LambdaClientResolvedConfig,
+    ServiceInputTypes,
+    ServiceOutputTypes
+  >;
+  new (
+    input: SendDurableExecutionCallbackSuccessCommandInput
+  ): import("@smithy/core/client").CommandImpl<
+    SendDurableExecutionCallbackSuccessCommandInput,
+    SendDurableExecutionCallbackSuccessCommandOutput,
+    LambdaClientResolvedConfig,
+    ServiceInputTypes,
+    ServiceOutputTypes
+  >;
+  getEndpointParameterInstructions(): {
+    [x: string]: unknown;
+  };
+};
+export declare class SendDurableExecutionCallbackSuccessCommand extends SendDurableExecutionCallbackSuccessCommand_base {
+  protected static __types: {
+    api: {
+      input: SendDurableExecutionCallbackSuccessRequest;
+      output: {};
+    };
+    sdk: {
+      input: SendDurableExecutionCallbackSuccessCommandInput;
+      output: SendDurableExecutionCallbackSuccessCommandOutput;
+    };
+  };
+}

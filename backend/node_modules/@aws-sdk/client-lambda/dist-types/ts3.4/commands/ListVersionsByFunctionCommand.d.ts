@@ -1,0 +1,53 @@
+import { Command as $Command } from "@smithy/core/client";
+import { MetadataBearer as __MetadataBearer } from "@smithy/types";
+import {
+  LambdaClientResolvedConfig,
+  ServiceInputTypes,
+  ServiceOutputTypes,
+} from "../LambdaClient";
+import {
+  ListVersionsByFunctionRequest,
+  ListVersionsByFunctionResponse,
+} from "../models/models_0";
+export { __MetadataBearer };
+export { $Command };
+export interface ListVersionsByFunctionCommandInput
+  extends ListVersionsByFunctionRequest {}
+export interface ListVersionsByFunctionCommandOutput
+  extends ListVersionsByFunctionResponse,
+    __MetadataBearer {}
+declare const ListVersionsByFunctionCommand_base: {
+  new (
+    input: ListVersionsByFunctionCommandInput
+  ): import("@smithy/core/client").CommandImpl<
+    ListVersionsByFunctionCommandInput,
+    ListVersionsByFunctionCommandOutput,
+    LambdaClientResolvedConfig,
+    ServiceInputTypes,
+    ServiceOutputTypes
+  >;
+  new (
+    input: ListVersionsByFunctionCommandInput
+  ): import("@smithy/core/client").CommandImpl<
+    ListVersionsByFunctionCommandInput,
+    ListVersionsByFunctionCommandOutput,
+    LambdaClientResolvedConfig,
+    ServiceInputTypes,
+    ServiceOutputTypes
+  >;
+  getEndpointParameterInstructions(): {
+    [x: string]: unknown;
+  };
+};
+export declare class ListVersionsByFunctionCommand extends ListVersionsByFunctionCommand_base {
+  protected static __types: {
+    api: {
+      input: ListVersionsByFunctionRequest;
+      output: ListVersionsByFunctionResponse;
+    };
+    sdk: {
+      input: ListVersionsByFunctionCommandInput;
+      output: ListVersionsByFunctionCommandOutput;
+    };
+  };
+}
