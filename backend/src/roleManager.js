@@ -1,4 +1,4 @@
-const Redlock = require('redlock');
+const { default: Redlock } = require('redlock');
 const { redisClient } = require('./redis.js');
 const { startEngine, stopEngine } = require('./engine.js');
 
