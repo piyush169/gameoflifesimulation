@@ -15,7 +15,7 @@ function generateRandomGrid() {
     for (let r = 0; r < GRID_SIZE; r++) {
         const row = [];
         for (let c = 0; c < GRID_SIZE; c++) {
-            row.push(Math.random() > 0.75 ? 1 : 0); 
+            row.push(Math.random() > 0.90 ? 1 : 0); 
         }
         grid.push(row);
     }
