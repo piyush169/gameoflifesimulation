@@ -34,14 +34,14 @@ function startServer() {
 
     
     if (redisSubscriber) {
-        redisSubscriber.subscribe('game-updates', (message) => {
+        redisSubscriber.subscribe('gol-frames', (message) => {
             wss.clients.forEach(client => {
                 if (client.readyState === 1) {
                     client.send(message); // Forward raw frame to UI
                 }
             });
         }).then(() => {
-            console.log("Successfully connected to Redis stream: game-updates");
+            console.log("Successfully connected to Redis stream: gol-frames");
         }).catch((err) => {
             console.error("Failed to bind Redis subscriber:", err);
         });
@@ -61,7 +61,7 @@ function startServer() {
                         const newGrid = generateRandomGrid();
                         
                         if (redisClient) {
-                            await redisClient.set('gol-shared-state', JSON.stringify(newGrid));
+                            await redisClient.set('gol-state', JSON.stringify(newGrid));
                         }
                         
                         wss.clients.forEach(client => {
