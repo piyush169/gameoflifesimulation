@@ -34,18 +34,16 @@ function startServer() {
 
     
     if (redisSubscriber) {
-        redisSubscriber.subscribe('game-updates', (err) => {
-            if (err) console.error('Failed to subscribe to Redis tick channel:', err);
-        });
-
-        redisSubscriber.on('message', (channel, message) => {
-            if (channel === 'game-updates') {
-                wss.clients.forEach(client => {
-                    if (client.readyState === 1) {
-                        client.send(message); 
-                    }
-                });
-            }
+        redisSubscriber.subscribe('game-updates', (message) => {
+            wss.clients.forEach(client => {
+                if (client.readyState === 1) {
+                    client.send(message); // Forward raw frame to UI
+                }
+            });
+        }).then(() => {
+            console.log("Successfully connected to Redis stream: game-updates");
+        }).catch((err) => {
+            console.error("Failed to bind Redis subscriber:", err);
         });
     }
 
