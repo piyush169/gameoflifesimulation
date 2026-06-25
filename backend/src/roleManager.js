@@ -11,7 +11,12 @@ const LOCK_KEY = 'locks:gol-leader';
 const LOCK_TTL = 2000; // 2 seconds
 let currentLock = null;
 
+let isAttempting = false;
+
 async function attemptLeadership() {
+    if (isAttempting) return;
+    isAttempting = true;
+
     try {
         if (currentLock) {
             // If we already have the lock, extend it
@@ -26,6 +31,8 @@ async function attemptLeadership() {
         // Failed to acquire lock - someone else is the Leader
         currentLock = null;
         stopEngine(); 
+    } finally {
+        isAttempting = false;
     }
 }
 
