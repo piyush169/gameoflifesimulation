@@ -21,6 +21,8 @@ tf-validate:
   image: 
     name: hashicorp/terraform:light
     entrypoint: [""]
+  before_script:
+    - touch infrastructure/lambda_payload.zip
   script:
     - cd infrastructure
     - terraform init -backend=false
