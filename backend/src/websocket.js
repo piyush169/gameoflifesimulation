@@ -34,16 +34,20 @@ function startServer() {
 
     
     if (redisSubscriber) {
-        redisSubscriber.subscribe('gol-frames', (message) => {
-            wss.clients.forEach(client => {
-                if (client.readyState === 1) {
-                    client.send(message); // Forward raw frame to UI
-                }
-            });
-        }).then(() => {
+        redisSubscriber.subscribe('gol-frames').then(() => {
             console.log("Successfully connected to Redis stream: gol-frames");
         }).catch((err) => {
             console.error("Failed to bind Redis subscriber:", err);
+        });
+
+        redisSubscriber.on('message', (channel, message) => {
+            if (channel === 'gol-frames') {
+                wss.clients.forEach(client => {
+                    if (client.readyState === 1) {
+                        client.send(message); // Forward raw frame to UI
+                    }
+                });
+            }
         });
     }
 
