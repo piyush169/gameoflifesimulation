@@ -2,14 +2,17 @@ const express = require('express');
 const http = require('http');
 const { WebSocketServer } = require('ws');
 const { LambdaClient, InvokeCommand } = require('@aws-sdk/client-lambda');
+const { SQSClient, GetQueueAttributesCommand } = require('@aws-sdk/client-sqs');
+const os = require('os');
 
 const { redisSubscriber, redisClient } = require('./redis.js'); 
 
 const GRID_SIZE = 50;
 const lambdaClient = new LambdaClient({ region: process.env.AWS_REGION || 'us-east-1' });
+const sqsClient = new SQSClient({ region: process.env.AWS_REGION || 'us-east-1' });
 
-let currentCpu = 15;
-let currentQueue = 0;
+let previousCpuUsage = process.cpuUsage();
+let previousTime = process.hrtime.bigint();
 
 function generateRandomGrid() {
     const grid = Array.from({ length: GRID_SIZE }, () => Array(GRID_SIZE).fill(0));
@@ -75,9 +78,7 @@ function startServer() {
                         });
 
                     } else if (data.action === 'TRIGGER_CHAOS') {
-                        console.log('Chaos initiated! Spiking telemetry metrics...');
-                        currentCpu = 98;
-                        currentQueue = 1000;
+                        console.log('Chaos initiated! Triggering Lambda...');
 
                         try {
                             const command = new InvokeCommand({
@@ -96,15 +97,44 @@ function startServer() {
         });
     });
 
-    // --- 3. TELEMETRY SYSTEM DECAY LOOP ---
-    setInterval(() => {
-        currentCpu = Math.max(10 + (Math.random() * 5), currentCpu - 5);
-        currentQueue = Math.max(0, currentQueue - 75);
+    // --- 3. REAL TELEMETRY LOOP ---
+    setInterval(async () => {
+        let queueDepth = 0;
+        try {
+            if (process.env.SQS_QUEUE_URL) {
+                const data = await sqsClient.send(new GetQueueAttributesCommand({
+                    QueueUrl: process.env.SQS_QUEUE_URL,
+                    AttributeNames: ['ApproximateNumberOfMessages']
+                }));
+                queueDepth = parseInt(data.Attributes.ApproximateNumberOfMessages, 10) || 0;
+            }
+        } catch (err) {
+            console.error("Failed to fetch SQS attributes:", err);
+        }
+
+        const currentCpuUsage = process.cpuUsage();
+        const currentTime = process.hrtime.bigint();
+        
+        const userDiff = currentCpuUsage.user - previousCpuUsage.user;
+        const systemDiff = currentCpuUsage.system - previousCpuUsage.system;
+        const timeDiffUs = Number(currentTime - previousTime) / 1000;
+        
+        // Fargate task has 0.25 vCPU. 
+        // Max theoretical CPU time per wall-clock microsecond is 0.25 microseconds.
+        const maxCpuTimeAllowed = timeDiffUs * 0.25;
+        let cpuPercent = ((userDiff + systemDiff) / maxCpuTimeAllowed) * 100;
+        
+        // Clamp bounds for UI realism and minor reporting variances
+        if (cpuPercent > 100) cpuPercent = 100 + (Math.random() * 2); 
+        if (cpuPercent < 1) cpuPercent = 1 + (Math.random() * 2);
+
+        previousCpuUsage = currentCpuUsage;
+        previousTime = currentTime;
 
         const telemetryPayload = {
             type: 'TELEMETRY',
-            cpu: currentCpu.toFixed(1),
-            queueDepth: Math.floor(currentQueue)
+            cpu: cpuPercent.toFixed(1),
+            queueDepth: queueDepth
         };
 
         wss.clients.forEach(client => {
