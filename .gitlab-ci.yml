@@ -63,5 +63,6 @@ deploy-infrastructure:
     - terraform plan -out=tfplan
     - terraform apply -auto-approve tfplan
     - aws ecs update-service --cluster gol-chaos-cluster --service gol-backend-service --force-new-deployment --region $AWS_DEFAULT_REGION
+    - aws s3 sync ../frontend/ s3://gol.piyu.me/ --delete
   only:
     - main
