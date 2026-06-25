@@ -53,9 +53,8 @@ deploy-infrastructure:
   before_script:
     # Added nodejs and npm to the alpine package installation
     - apk add --no-cache zip aws-cli nodejs npm
-    # Updated to match the dashed folder name and modern npm flag
-    - cd load-injector && npm install --omit=dev && cd ..
-    - zip -j infrastructure/dummy_lambda.zip load-injector/*
+    # Updated to correctly package node_modules without flattening paths
+    - cd load-injector && npm install --omit=dev && zip -r ../infrastructure/lambda_payload.zip . && cd ..
   script:
     - cd infrastructure
     - terraform init

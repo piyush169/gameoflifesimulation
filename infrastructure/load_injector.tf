@@ -4,20 +4,11 @@ locals {
   scheduler_role_arn = "arn:aws:iam::710590321638:role/gol-eventbridge-scheduler-role"
 }
 
-# Dummy archive to allow initial Terraform apply without breaking
-data "archive_file" "dummy_lambda" {
-  type        = "zip"
-  output_path = "${path.module}/dummy_lambda.zip"
-  source {
-    content  = "exports.handler = async () => { console.log('placeholder'); }"
-    filename = "index.js"
-  }
-}
-
 # The Load Injector Lambda Function
 resource "aws_lambda_function" "load_injector" {
-  filename      = data.archive_file.dummy_lambda.output_path
-  function_name = "gol-chaos-load-injector"
+  filename         = "lambda_payload.zip"
+  source_code_hash = filebase64sha256("lambda_payload.zip")
+  function_name    = "gol-chaos-load-injector"
   role          = local.lambda_role_arn
   handler       = "index.handler"
   runtime       = "nodejs18.x"
