@@ -15,16 +15,19 @@ async function pollSQS() {
         }));
 
         if (data.Messages && data.Messages.length > 0) {
+            // 1. Process all messages synchronously to compound the event loop blockage
             for (const msg of data.Messages) {
-                
                 // This blocks the event loop, starving the Game of Life engine
                 crypto.pbkdf2Sync('chaos-password', 'salt', 100000, 64, 'sha512');
-                
-                await sqs.send(new DeleteMessageCommand({
+            }
+            
+            // 2. Yield event loop and delete messages concurrently
+            await Promise.all(data.Messages.map(msg => 
+                sqs.send(new DeleteMessageCommand({
                     QueueUrl: QUEUE_URL,
                     ReceiptHandle: msg.ReceiptHandle
-                }));
-            }
+                }))
+            ));
         }
     } catch (err) {
         console.error("SQS Polling Error:", err);
