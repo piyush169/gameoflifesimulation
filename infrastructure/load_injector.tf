@@ -19,7 +19,7 @@ resource "aws_lambda_function" "load_injector" {
   filename      = data.archive_file.dummy_lambda.output_path
   function_name = "gol-chaos-load-injector"
   role          = local.lambda_role_arn
-  handler       = "index.js"
+  handler       = "index.handler"
   runtime       = "nodejs18.x"
   timeout       = 300 # 5-minute limit for heavy batch execution
 
