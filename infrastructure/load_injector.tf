@@ -20,26 +20,3 @@ resource "aws_lambda_function" "load_injector" {
     }
   }
 }
-
-# EventBridge Scheduler to trigger the surge phase
-resource "aws_scheduler_schedule" "surge_trigger" {
-  name       = "gol-chaos-surge-schedule"
-  group_name = "default"
-
-  flexible_time_window {
-    mode = "OFF"
-  }
-
-  # Triggers every 10 minutes to spike the queue
-  schedule_expression = "rate(10 minutes)"
-
-  target {
-    arn      = aws_lambda_function.load_injector.arn
-    role_arn = local.scheduler_role_arn
-
-    retry_policy {
-      maximum_retry_attempts       = 0
-      maximum_event_age_in_seconds = 60
-    }
-  }
-}
