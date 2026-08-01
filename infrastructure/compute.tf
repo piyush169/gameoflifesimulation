@@ -1,6 +1,6 @@
 locals {
-  ecs_execution_role_arn = "arn:aws:iam::710590321638:role/gol-ecs-execution-role"
-  ecs_task_role_arn      = "arn:aws:iam::710590321638:role/gol-ecs-task-role"
+  ecs_execution_role_arn = "arn:aws:iam::325011900853:role/gol-ecs-execution-role"
+  ecs_task_role_arn      = "arn:aws:iam::325011900853:role/gol-ecs-task-role"
 }
 
 # 2. ECS Cluster Core

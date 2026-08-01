@@ -1,7 +1,7 @@
 # Paste your manually created Lambda execution role and EventBridge role here
 locals {
-  lambda_role_arn    = "arn:aws:iam::710590321638:role/gol-lambda-execution-role"
-  scheduler_role_arn = "arn:aws:iam::710590321638:role/gol-eventbridge-scheduler-role"
+  lambda_role_arn    = "arn:aws:iam::325011900853:role/gol-lambda-execution-role"
+  scheduler_role_arn = "arn:aws:iam::325011900853:role/gol-eventbridge-scheduler-role"
 }
 
 # The Load Injector Lambda Function

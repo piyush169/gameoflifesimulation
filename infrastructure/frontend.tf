@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "frontend" {
-  bucket = "gol.piyu.me"
+  bucket = "gol-v2.piyu.me"
 }
 
 resource "aws_s3_bucket_website_configuration" "frontend" {

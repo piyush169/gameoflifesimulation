@@ -1,3 +1,4 @@
+// index.js
 require('dotenv').config();
 const { startServer } = require('./websocket.js');
 const { startRoleManager } = require('./roleManager.js');

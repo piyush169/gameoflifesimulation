@@ -1,3 +1,4 @@
+//engine.js
 const { redisClient } = require('./redis.js');
 
 const GRID_SIZE = 50;
@@ -6,6 +7,7 @@ let engineInterval = null;
 
 function createRandomGrid() {
     const grid = Array.from({ length: GRID_SIZE }, () => Array(GRID_SIZE).fill(0));
+    //gosper glider gun pattern
     const gun = [
         [5, 1], [5, 2], [6, 1], [6, 2],
         [5, 11], [6, 11], [7, 11], [4, 12], [8, 12], [3, 13], [9, 13], [3, 14], [9, 14], [6, 15], [4, 16], [8, 16], [5, 17], [6, 17], [7, 17], [6, 18],

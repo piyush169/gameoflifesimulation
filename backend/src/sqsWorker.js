@@ -1,3 +1,4 @@
+// sqsWorker.js
 const { SQSClient, ReceiveMessageCommand, DeleteMessageCommand } = require('@aws-sdk/client-sqs');
 const crypto = require('crypto');
 

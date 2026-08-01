@@ -2,7 +2,7 @@ terraform {
   required_version = ">= 1.0.0"
 
   backend "s3" {
-    bucket = "gol-chaos-tf-state-12345" 
+    bucket = "gol-chaos-tf-state-123456" 
     key    = "state/terraform.tfstate"
     region = "us-east-1"
   }
