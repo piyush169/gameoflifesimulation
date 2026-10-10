@@ -1,0 +1,21 @@
+# Local cluster for trying the dashboard without AWS. NOT used by the AWS deployment.
+#
+#   docker compose up --build --scale backend=3
+#   python3 -m http.server 3000 --directory frontend     # then open http://localhost:3000
+#
+# Replicas get host ports 8080, 8081, 8082... The page connects to :8080 by default;
+# open http://localhost:3000/?ws=ws://localhost:8081 to attach your browser to another replica.
+# Without SQS_QUEUE_URL / AWS credentials the chaos button has no effect locally.
+services:
+  redis:
+    image: redis:7-alpine
+
+  backend:
+    build: ./backend
+    depends_on: [redis]
+    environment:
+      REDIS_URL: redis://redis:6379
+    cpus: 0.25        # same CPU/memory as the Fargate task, so the percentages mean the same thing
+    mem_limit: 512m
+    ports:
+      - "8080-8089:8080"

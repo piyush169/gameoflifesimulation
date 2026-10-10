@@ -1,6 +1,7 @@
 // sqsWorker.js
 const { SQSClient, ReceiveMessageCommand, DeleteMessageCommand } = require('@aws-sdk/client-sqs');
 const crypto = require('crypto');
+const { markMessages } = require('./metrics.js');
 
 const sqs = new SQSClient({ region: process.env.AWS_REGION || 'us-east-1' });
 const QUEUE_URL = process.env.SQS_QUEUE_URL;
@@ -29,6 +30,8 @@ async function pollSQS() {
                     ReceiptHandle: msg.ReceiptHandle
                 }))
             ));
+
+            markMessages(data.Messages.length);
         }
     } catch (err) {
         console.error("SQS Polling Error:", err);
