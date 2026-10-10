@@ -1,5 +1,6 @@
 //engine.js
 const { redisClient } = require('./redis.js');
+const { markTick } = require('./metrics.js');
 
 const GRID_SIZE = 50;
 const TICK_RATE_MS = 100; // Aiming for 10 FPS
@@ -44,16 +45,21 @@ function computeNextGeneration(grid) {
 }
 
 async function tick() {
+    const tickStart = performance.now();
     try {
         let rawGrid = await redisClient.get('gol-state');
         let grid = rawGrid ? JSON.parse(rawGrid) : createRandomGrid();
 
+        const computeStart = performance.now();
         const nextGrid = computeNextGeneration(grid);
+        const computeMs = performance.now() - computeStart;
         const gridString = JSON.stringify(nextGrid);
 
         // Save state and broadcast
         await redisClient.set('gol-state', gridString);
         await redisClient.publish('gol-frames', gridString);
+
+        markTick(performance.now() - tickStart, computeMs);
     } catch (err) {
         console.error("Engine Tick Error:", err);
     }

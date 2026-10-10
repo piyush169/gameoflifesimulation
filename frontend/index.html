@@ -32,6 +32,24 @@
                 <button id="chaosBtn" style="padding: 10px 20px; background: #f85149; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">INITIATE CHAOS SPIKE</button>
             </div>
 
+            <section class="cluster" aria-label="Running containers">
+                <h2>Containers</h2>
+                <div class="metrics">
+                    <div class="metric-box">
+                        <span class="label">CONTAINERS REPORTING</span>
+                        <span class="value" id="nodeCount">0</span>
+                    </div>
+                    <div class="metric-box">
+                        <span class="label">LEADER</span>
+                        <span class="value" id="leaderName">none</span>
+                    </div>
+                </div>
+                <p id="clusterAlert" class="cluster-alert" hidden></p>
+                <div id="nodeGrid" class="node-grid">
+                    <p class="node-empty">Waiting for the first heartbeat from a container.</p>
+                </div>
+            </section>
+
             <div class="graphs" style="margin-top: 20px; display: flex; gap: 20px; height: 350px;">
                 <div style="flex: 1; background: #0d1117; padding: 10px; border: 1px solid #30363d; border-radius: 6px;">
                     <canvas id="cpuChart"></canvas>

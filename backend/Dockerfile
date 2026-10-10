@@ -14,4 +14,4 @@ COPY package.json ./
 # Expose the WebSocket/HTTP port
 EXPOSE 8080
 
-CMD ["npm", "start"]
+CMD ["node", "src/index.js"]
